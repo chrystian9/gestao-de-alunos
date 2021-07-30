@@ -1,0 +1,51 @@
+<div class="card">
+    <div class="card-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 d-inline-flex align-items-center">
+                    <h3 class="titulo-secao">Alunos</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="container-fluid">
+            <div class="row" id="componente-aluno">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th class="col-1" scope="col">#</th>
+                    <th class="col-2" scope="col">Nome</th>
+                    <th class="col-4" scope="col">Sobrenome</th>
+                    <th class="col-2" scope="col">Data de Cadastro</th>
+                    <th class="col-4" scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let aluno of alunos; index as i">
+                    <th class="align-middle" scope="row">{{ i + 1 }}</th>
+                    <td class="align-middle">{{ aluno.nome }}</td>
+                    <td class="align-middle">{{ aluno.sobrenome }}</td>
+                    <td class="align-middle">{{ aluno.dataCadastro | date: 'dd/MM/yyyy HH:mm' }}</td>
+                    <td class="text-center align-middle">
+                      <button type="button" id="ver-aluno" class="btn btn-primary" (click)="openModalVizualizar(aluno)">Ver aluno</button>
+                      <button type="button" id="editar-aluno" class="btn btn-primary" (click)="editarAluno(aluno)"><span class="material-icons">mode_edit</span></button>
+                      <button type="button" id="deletar-aluno" class="btn btn-danger" (click)="removerAluno(aluno)"><span class="material-icons">delete</span></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination id="page-link" [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
+                    </ngb-pagination>
+
+                    <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshAlunos()">
+                      <option [ngValue]="2">2 items por pagina</option>
+                      <option [ngValue]="4">4 items por pagina</option>
+                      <option [ngValue]="6">6 items por pagina</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

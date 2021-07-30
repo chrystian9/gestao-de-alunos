@@ -1,0 +1,16 @@
+.card-header {
+    background-color: white;
+}
+
+#editar-aluno,
+#deletar-aluno{
+    padding: 3px !important;
+    margin: 5px;
+}
+
+#ver-aluno,
+#editar-aluno,
+#deletar-aluno{
+    background-color: var(--primary-blue) !important;
+    color: var(--color-white);
+}

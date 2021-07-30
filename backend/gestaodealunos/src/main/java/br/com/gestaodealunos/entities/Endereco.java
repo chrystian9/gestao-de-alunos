@@ -1,16 +1,17 @@
 package br.com.gestaodealunos.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import br.com.gestaodealunos.dto.EnderecoDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @AllArgsConstructor
-@Getter
+@NoArgsConstructor
 @Setter
+@Getter
 @Entity
 public class Endereco {
 
@@ -24,8 +25,14 @@ public class Endereco {
     @Column(name = "rua")
     private String rua;
 
+    @Column(name = "complemento")
+    private String complemento;
+
     @Column(name = "bairro")
     private String bairro;
+
+    @Column(name = "cep")
+    private String cep;
 
     @Column(name = "cidade")
     private String cidade;
@@ -33,10 +40,17 @@ public class Endereco {
     @Column(name = "estado")
     private String estado;
 
-    @Column(name = "pais")
-    private String pais;
-
-    @ManyToOne
-    @JoinColumn(name = "id_aluno", referencedColumnName = "id")
+    @JsonIgnore
+    @OneToOne(mappedBy = "endereco", cascade = CascadeType.ALL)
     private Aluno aluno;
+
+    public Endereco(EnderecoDTO enderecoDTO){
+        this.rua = enderecoDTO.rua;
+        this.numero = enderecoDTO.numero;
+        this.bairro = enderecoDTO.bairro;
+        this.cidade = enderecoDTO.cidade;
+        this.estado = enderecoDTO.estado;
+        this.complemento = enderecoDTO.complemento;;
+        this.cep = enderecoDTO.cep;
+    }
 }

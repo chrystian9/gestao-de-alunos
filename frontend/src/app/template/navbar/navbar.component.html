@@ -1,10 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
     <div class="container-fluid">
         <div class="d-flex align-items-center">
-            <a class="navbar-brand" routerLink="">
-                <img src="{{logoPath}}" alt="Delta" id="logo">
+            <a class="navbar-brand" href="https://www.deltaglobal.com.br/">
+                <img src="{{logoPath}}" alt="delta" id="logo">
             </a>
-            <p class="text-center" id="titulo-site">Gestão de Alunos</p>
+            <a class="navbar-brand" routerLink="">            
+                <p class="text-center" id="titulo-site">Gestão de Alunos</p>
+            </a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-right">
             <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -12,7 +14,7 @@
             <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a id="novo-aluno" class="btn btn-primary" role="button" routerLink="" aria-disabled="true">
+                        <a id="novo-aluno" class="btn btn-primary" role="button" routerLink="aluno-cadastro" aria-disabled="true">
                             <div class="d-flex">
                                 <span class="material-icons md-24 md-blue">add_circle_outline</span>Novo Aluno
                             </div>

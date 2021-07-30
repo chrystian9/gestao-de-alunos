@@ -1,0 +1,102 @@
+<div class="card">
+    <div class="card-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 d-inline-flex align-items-center">
+                    <a class="btn link-voltar" routerLink="/aluno-lista" (click)="reset()"><span class="material-icons-round">arrow_back_ios</span></a>
+                    <h3 class="titulo-secao">Aluno: {{formulario.value.nome}} {{formulario.value.sobrenome}} </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="container-fluid">
+            <div class="row" id="componente-aluno">
+                <form class="form-horizontal" id="formulario-cadastro" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <h4 id="titulo-dados-aluno">Dados do aluno</h4>
+                                    </div>
+                                    <div class="row">
+                                        <label>Nome</label>
+                                        <input class="form-control" style="margin-right: 10px; margin-left: 10px" formControlName="nome" maxlength="100">
+                                        <p *ngIf="verificaRequired('nome')" class="mensagem-erro">Nome é obrigatório!</p>
+                                        <p *ngIf="verificaCaracterEspecial('nome')" class="mensagem-erro">Não pode usar caracteres especiais!</p>
+                                    </div>
+                                    <div class="row">
+                                        <label>Sobrenome</label>
+                                        <input class="form-control" style="margin-right: 10px; margin-left: 10px" formControlName="sobrenome" maxlength="100">
+                                        <p *ngIf="verificaRequired('sobrenome')" class="mensagem-erro">Sobrenome é obrigatório!</p>
+                                        <p *ngIf="verificaCaracterEspecial('sobrenome')" class="mensagem-erro">Não pode usar caracteres especiais!</p>
+                                    </div>
+                                </div> 
+                                <div class="col-sm-6 text-center" id="imagem-perfil">
+                                    <img *ngIf="formulario.value.foto == null" src="/assets/img/default-perfil.png" alt="Foto de perfil">
+                                    <img *ngIf="formulario.value.foto != null" src="{{imagemPerfilURL}}" alt="Foto de perfil">
+                                    <p>
+                                        <input type="file" id="enviar-foto" (change)="onChangeFoto($event)"/>
+                                        <button type="button" class="btn" id="remove-foto" (click)="onRemoveFoto()">
+                                            <span class="material-icons align-middle md-24">delete</span>
+                                        </button>
+                                    </p>
+                                </div>    
+                            </div>
+                            <div formGroupName="endereco">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Rua</label>
+                                        <input class="form-control" formControlName="rua" maxlength="200">
+                                        <p *ngIf="verificaRequired('endereco.rua')" class="mensagem-erro">Rua é obrigatório!</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Número</label>
+                                        <input type="number" class="form-control" formControlName="numero" maxlength="200">
+                                        <p *ngIf="verificaRequired('endereco.numero')" style="width: 110%;" class="mensagem-erro">Número é obrigatório!</p>
+                                    </div>  
+                                    <div class="col-md-4">
+                                        <label>Complemento</label>
+                                        <input class="form-control" formControlName="complemento" maxlength="200">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label>Bairro</label>
+                                        <input class="form-control" formControlName="bairro" maxlength="200">
+                                        <p *ngIf="verificaRequired('endereco.bairro')" class="mensagem-erro">Bairro é obrigatório!</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>CEP</label>
+                                        <input class="form-control" formControlName="cep" maxlength="200" (blur)="consultaCEP()">
+                                        <p *ngIf="verificaRequired('endereco.cep')" class="mensagem-erro">CEP é obrigatório!</p>
+                                    </div> 
+                                    <div class="col-md-4">
+                                        <label>Cidade</label>
+                                        <input class="form-control" formControlName="cidade" maxlength="200">
+                                        <p *ngIf="verificaRequired('endereco.cidade')" class="mensagem-erro">Cidade é obrigatório!</p>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label>UF</label>
+                                        <input class="form-control" formControlName="estado" maxlength="200">
+                                        <p *ngIf="verificaRequired('endereco.estado')" class="mensagem-erro">Estado é obrigatório!</p>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid" id="footer">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn col-md-3" id="btn-salvar-aluno" [disabled]="!formulario.valid">
+                                        Salvar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
