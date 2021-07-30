@@ -19,7 +19,7 @@ export class AlunosService {
 
   salvarFoto(foto: File, nomeFoto: string, idAluno: number | null): Observable<any>{
     const formData = new FormData();
-    formData.append('foto', new Blob([foto]), nomeFoto);
+    formData.append('foto', new Blob([foto], {type: foto.type}), nomeFoto);
     return this.httpClient.post<any>(this.urlAlunos+`/${idAluno}/salvar-foto`, formData);
   }
 

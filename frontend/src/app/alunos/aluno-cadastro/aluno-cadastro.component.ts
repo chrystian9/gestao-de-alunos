@@ -32,6 +32,7 @@ export class AlunoCadastroComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       nome: [this.edicao == true ? this.aluno.nome : null, Validators.required],
       sobrenome: [this.edicao == true ? this.aluno.sobrenome : null, Validators.required],
+      
       endereco: this.formBuilder.group({
         cep: [this.edicao == true ? this.aluno.endereco.cep : null, Validators.required],
         numero: [this.edicao == true ? this.aluno.endereco.numero : null, Validators.required],
@@ -41,9 +42,16 @@ export class AlunoCadastroComponent implements OnInit {
         cidade: [this.edicao == true ? this.aluno.endereco.cidade : null, Validators.required],
         estado: [this.edicao == true ? this.aluno.endereco.estado : null, Validators.required]
       }),
+
       foto: [this.edicao == true && this.aluno.id != null ? 
           this.alunoService.getFotoPerfil(this.aluno.id)
-            .subscribe((value: any) => { this.formulario.value.foto = value;
+            .subscribe((value: any) => { 
+              this.formulario.value.foto = value;
+              let fotoReader = new FileReader();
+              fotoReader.onloadend = () => { 
+                this.imagemPerfilURL = typeof fotoReader.result != 'string' ? '' : fotoReader.result; 
+              }
+              fotoReader.readAsDataURL(this.formulario.value.foto);
           }) : null]
     })
   }
@@ -89,30 +97,24 @@ export class AlunoCadastroComponent implements OnInit {
     if(this.edicao){
       this.alunoService.update(this.aluno).subscribe((value: number) => {
         this.alunoService.salvarFoto(this.formulario.value.foto, this.aluno.nome.replace(/[ ]/gi, '')+'.'+this.extencaoFotoPerfil, value).subscribe();
+        this.reset();
+        this.router.navigate(['/aluno-lista'], {replaceUrl: true});
       });
     }else{
       this.alunoService.salvar(this.aluno).subscribe((value: number) => {
         this.alunoService.salvarFoto(this.formulario.value.foto, this.aluno.nome.replace(/[ ]/gi, '')+'.'+this.extencaoFotoPerfil, value).subscribe();
+        this.reset();    
+        this.router.navigate(['/aluno-lista'], {replaceUrl: true});
       });
     }
-
-    this.reset();
-
-    this.router.navigate(['/aluno-lista'], {replaceUrl: true});
   }
 
   verificaRequired(campo: string): boolean{
-    if(!this.formulario.get(campo)?.valid && this.formulario.get(campo)?.touched){
+    if(!this.formulario.get(campo)?.valid && this.formulario.get(campo)?.touched && this.formulario.get(campo)?.errors?.required){
       return true;
     }
 
     return false;
-  }
-
-  verificaCaracterEspecial(campo: string): boolean{
-    // this.formulario.get(campo)?.errors['pattern'] == true;
-
-    return false;  
   }
   
   consultaCEP(){

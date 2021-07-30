@@ -22,22 +22,22 @@
                                     </div>
                                     <div class="row">
                                         <label>Nome</label>
-                                        <input class="form-control" style="margin-right: 10px; margin-left: 10px" formControlName="nome" maxlength="100">
+                                        <input class="form-control" style="margin-right: 10px; margin-left: 10px" pattern="[a-zA-z ]*" formControlName="nome" maxlength="100">
                                         <p *ngIf="verificaRequired('nome')" class="mensagem-erro">Nome é obrigatório!</p>
-                                        <p *ngIf="verificaCaracterEspecial('nome')" class="mensagem-erro">Não pode usar caracteres especiais!</p>
+                                        <p *ngIf="formulario.get('nome')?.errors?.pattern" class="mensagem-erro">Não pode usar caracteres especiais!</p>
                                     </div>
                                     <div class="row">
                                         <label>Sobrenome</label>
-                                        <input class="form-control" style="margin-right: 10px; margin-left: 10px" formControlName="sobrenome" maxlength="100">
+                                        <input class="form-control" style="margin-right: 10px; margin-left: 10px" pattern="[a-zA-z ]*" formControlName="sobrenome" maxlength="100">
                                         <p *ngIf="verificaRequired('sobrenome')" class="mensagem-erro">Sobrenome é obrigatório!</p>
-                                        <p *ngIf="verificaCaracterEspecial('sobrenome')" class="mensagem-erro">Não pode usar caracteres especiais!</p>
+                                        <p *ngIf="formulario.get('sobrenome')?.errors?.pattern" class="mensagem-erro">Não pode usar caracteres especiais!</p>
                                     </div>
                                 </div> 
                                 <div class="col-sm-6 text-center" id="imagem-perfil">
                                     <img *ngIf="formulario.value.foto == null" src="/assets/img/default-perfil.png" alt="Foto de perfil">
                                     <img *ngIf="formulario.value.foto != null" src="{{imagemPerfilURL}}" alt="Foto de perfil">
                                     <p>
-                                        <input type="file" id="enviar-foto" (change)="onChangeFoto($event)"/>
+                                        <input type="file" id="enviar-foto" accept="image/*" (change)="onChangeFoto($event)"/>
                                         <button type="button" class="btn" id="remove-foto" (click)="onRemoveFoto()">
                                             <span class="material-icons align-middle md-24">delete</span>
                                         </button>

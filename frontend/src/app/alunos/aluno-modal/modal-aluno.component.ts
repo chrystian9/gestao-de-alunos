@@ -20,14 +20,14 @@ export class ModalAlunoComponent implements OnInit {
       if(this.aluno.id != null){
         this.alunosService.getFotoPerfil(this.aluno.id).subscribe((value: any) => {
           this.imagemPerfil = value;
-        });
-        if(this.imagemPerfil != null){
-          let fotoReader = new FileReader();
-          fotoReader.onloadend = () => { 
-            this.imagemPerfilURL = typeof fotoReader.result != 'string' ? '' : fotoReader.result; 
+          if(this.imagemPerfil != null){
+            let fotoReader = new FileReader();
+            fotoReader.onloadend = () => { 
+              this.imagemPerfilURL = typeof fotoReader.result != 'string' ? '' : fotoReader.result; 
+            }
+            fotoReader.readAsDataURL(this.imagemPerfil);
           }
-          fotoReader.readAsDataURL(this.imagemPerfil);
-        }
+        });
       }
     }
 }
