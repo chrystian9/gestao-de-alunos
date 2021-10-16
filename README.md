@@ -74,6 +74,8 @@ Faça o clone do [repositorio](https://github.com/chrystian9/gestao-de-alunos)
 
 ## Frontend
 
+O frontend sera continuado em outro repositorio
+
 * Configure o Node a partir do modulo [n](https://www.npmjs.com/package/n) do NPM
 
 ```
