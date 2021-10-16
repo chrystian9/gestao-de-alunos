@@ -18,10 +18,10 @@ Faça o clone do [repositorio](https://github.com/chrystian9/gestao-de-alunos)
 
 ### Banco Postgres com Docker
 
-* Instalar Postgres 12.5 com Docker: Nesse [link](https://elanderson.net/2018/02/setup-postgresql-on-windows-with-docker/) existe uma boa explicação, no entanto vamos mudar algumas coisas. 
+* Instalar Postgres 12.5 com Docker: Nesse [link](https://elanderson.net/2018/02/setup-postgresql-on-windows-with-docker/) existe uma boa explicação, no entanto vamos mudar algumas coisas (Rode os comandos pelo power shell). 
 
   - Baixe e instale o docker pelo [link](https://hub.docker.com/editions/community/docker-ce-desktop-windows)
-  - Rode no power shell o seguinte comando
+  - Rode o seguinte comando para pegar a imagem do postgres
   ```
   docker create -v /var/lib/postgresql/data --name PostgresData alpine
   ```
