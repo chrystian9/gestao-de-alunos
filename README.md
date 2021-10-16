@@ -74,7 +74,7 @@ Faça o clone do [repositorio](https://github.com/chrystian9/gestao-de-alunos)
 
 ## Frontend
 
-O frontend sera continuado em outro repositorio
+O frontend sera continuado em outro [repositorio](https://github.com/Viniciud/frontend-angular-project/tree/develop)
 
 * Configure o Node a partir do modulo [n](https://www.npmjs.com/package/n) do NPM
 
