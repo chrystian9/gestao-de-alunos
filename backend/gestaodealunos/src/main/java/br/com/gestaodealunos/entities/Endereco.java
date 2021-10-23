@@ -10,8 +10,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 @Entity
 public class Endereco {
 
