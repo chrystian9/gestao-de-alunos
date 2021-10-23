@@ -41,7 +41,7 @@ Faça o clone do [repositorio](https://github.com/chrystian9/gestao-de-alunos)
     ```
     -> E por fim rode a query de criação do banco
     ```
-    postgres-# CREATE DATABASE gestao_alunos;
+    CREATE DATABASE gestao_alunos;
     ```
     -> Pode fechar o terminal
   
