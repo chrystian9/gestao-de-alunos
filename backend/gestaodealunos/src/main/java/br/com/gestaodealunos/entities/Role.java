@@ -21,7 +21,7 @@ public class Role implements GrantedAuthority {
     @Column(name = "nome")
     private String nome;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Usuario> usuarios;
 
     public Role(String nome){

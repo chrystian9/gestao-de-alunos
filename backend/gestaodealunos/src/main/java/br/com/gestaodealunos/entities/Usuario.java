@@ -9,8 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.util.List;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -39,7 +39,7 @@ public class Usuario {
     @Column(name = "active")
     private boolean active;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(
             name = "usuario_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(

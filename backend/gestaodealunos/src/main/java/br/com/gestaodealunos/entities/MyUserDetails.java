@@ -20,6 +20,7 @@ public class MyUserDetails implements UserDetails {
         this.userName = usuario.getEmail();
         this.password = usuario.getSenha();
         this.active = usuario.isActive();
+        this.authorities = usuario.getRoles();
     }
 
     @Override
