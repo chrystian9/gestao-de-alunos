@@ -34,38 +34,16 @@ public class AlunoService {
     @Autowired
     AlunoRepository alunoRepository;
 
-    private static String diretorioFotosPerfil = System.getProperty("user.dir")+"/src/main/resources/fotos-perfil";
+    @Autowired
+    FotoService fotoService;
 
     public Aluno salvar(Aluno aluno){
         return alunoRepository.save(aluno);
     }
 
-    public String salvarFoto(MultipartFile foto, Long idAluno) throws IOException {
-        String nomeFoto = StringUtils.cleanPath(foto.getOriginalFilename());
-
-        Path fotoPath = Paths.get(diretorioFotosPerfil, idAluno.toString(), nomeFoto).toAbsolutePath().normalize();
-
-        if(!Files.exists(Paths.get(diretorioFotosPerfil).toAbsolutePath().normalize())){
-            File folder = new File(diretorioFotosPerfil);
-            folder.mkdir();
-        }
-
-        if(!Files.exists(Paths.get(diretorioFotosPerfil, idAluno.toString()).toAbsolutePath().normalize())){
-            File folder = new File(Paths.get(diretorioFotosPerfil, idAluno.toString()).toAbsolutePath().normalize().toUri());
-            folder.mkdir();
-        }else{
-            File folder = new File(fotoPath.toUri());
-            if (folder.isDirectory()) {
-                File[] sun = folder.listFiles();
-                for (File toDelete : sun) {
-                    toDelete.delete();
-                }
-            }
-        }
-
-        copy(foto.getInputStream(), fotoPath, REPLACE_EXISTING);
-
-        return fotoPath.toString();
+    public void salvarFoto(MultipartFile foto, Long idAluno) throws IOException {
+        String fotoPath = fotoService.salvarFoto(foto, idAluno);
+        atualizarPathFotoEmAluno(fotoPath, idAluno);
     }
 
     public Aluno atualizarPathFotoEmAluno(String fotoPath, Long idAluno) {
@@ -80,20 +58,7 @@ public class AlunoService {
     public ResponseEntity<Resource> getFoto(Long idAluno) throws IOException {
         Optional<Aluno> alunoOptional = alunoRepository.findById(idAluno);
 
-        Path pathFoto = Path.of(alunoOptional.get().getPathFoto());
-
-        if(!Files.exists(pathFoto)){
-            throw new FileNotFoundException("Foto não encontrada no servidor");
-        }
-
-        Resource resource = new UrlResource(pathFoto.toUri());
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("File-Name", pathFoto.getFileName().toString());
-        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;File-Name=" + resource.getFilename());
-
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(pathFoto)))
-                .headers(httpHeaders).body(resource);
+        return fotoService.getFoto(Path.of(alunoOptional.get().getPathFoto()));
     }
 
     public Page<Aluno> listarAlunos(Integer page, Integer linesPerPage, String orderBy, String direction){

@@ -23,13 +23,6 @@ public class AlunosController {
 
     @Autowired
     private AlunoService alunoService;
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @GetMapping(path = "/salvarAdmin")
-    public ResponseEntity<String> salvar(){
-        return ResponseEntity.ok().body("teste");
-    }
 
     @PostMapping(path = "/salvar")
     public ResponseEntity<Long> salvar(@RequestBody AlunoDTO alunoDTO){
@@ -43,8 +36,7 @@ public class AlunosController {
     @PostMapping(path = "/{id}/salvar-foto")
     public ResponseEntity<String> salvarFoto(@RequestBody MultipartFile foto, @PathVariable("id") Long idAluno) throws IOException {
 
-        String fotoPath = alunoService.salvarFoto(foto, idAluno);
-        alunoService.atualizarPathFotoEmAluno(fotoPath, idAluno);
+        alunoService.salvarFoto(foto, idAluno);
 
         return ResponseEntity.ok().body("Sucesso");
     }
