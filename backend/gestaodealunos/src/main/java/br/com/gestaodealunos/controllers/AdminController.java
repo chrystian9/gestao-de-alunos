@@ -1,16 +1,13 @@
 package br.com.gestaodealunos.controllers;
 
-import br.com.gestaodealunos.dto.AlunoDTO;
 import br.com.gestaodealunos.dto.ProfessorDTO;
-import br.com.gestaodealunos.entities.Aluno;
+import br.com.gestaodealunos.dto.UsuarioDTO;
 import br.com.gestaodealunos.entities.Professor;
+import br.com.gestaodealunos.entities.Usuario;
 import br.com.gestaodealunos.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api/admin")
@@ -23,5 +20,39 @@ public class AdminController {
     public ResponseEntity<Professor> cadastrarProfessor(@RequestBody ProfessorDTO professorDTO){
 
         return ResponseEntity.ok().body(adminService.cadastrarProfessor(professorDTO));
+    }
+
+    @PostMapping(path = "/cadastrar-usuario-admin")
+    public ResponseEntity<Usuario> cadastrarUsuarioAdmin(@RequestBody UsuarioDTO usuarioDTO){
+
+        return ResponseEntity.ok().body(adminService.cadastrarUsuarioAdmin(usuarioDTO));
+    }
+
+    @PostMapping(path = "/editar-usuario-admin")
+    public ResponseEntity<Usuario> editarUsuarioAdmin(@RequestBody UsuarioDTO usuarioDTO){
+
+        return ResponseEntity.ok().body(adminService.editarUsuarioAdmin(usuarioDTO));
+    }
+
+    @PostMapping(path = "/editar-professor")
+    public ResponseEntity<Professor> editarProfessor(@RequestBody ProfessorDTO professorDTO){
+
+        return ResponseEntity.ok().body(adminService.editarProfessor(professorDTO));
+    }
+
+    @DeleteMapping(path = "/delete-usuario-admin")
+    public ResponseEntity<String> deleteUsuarioAdmin(@RequestBody UsuarioDTO usuarioDTO){
+
+        adminService.deleteUsuarioAdmin(usuarioDTO);
+
+        return ResponseEntity.ok().body("Sucesso");
+    }
+
+    @DeleteMapping(path = "/delete-professor")
+    public ResponseEntity<String> deleteProfessor(@RequestBody ProfessorDTO professorDTO){
+
+        adminService.deleteProfessor(professorDTO);
+
+        return ResponseEntity.ok().body("Sucesso");
     }
 }

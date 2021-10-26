@@ -1,5 +1,6 @@
 package br.com.gestaodealunos.entities;
 
+import br.com.gestaodealunos.dto.UsuarioDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class Usuario {
     private String email;
 
     @NotNull
+    @JsonIgnore
     @Column(name = "senha")
     private String senha;
 
@@ -60,5 +62,13 @@ public class Usuario {
         this.senha = senha;
         this.dataUltimaAtualizacao = dataUltimaAtualizacao;
         this.dataCadastro = dataCadastro;
+    }
+
+    public Usuario(UsuarioDTO usuarioDTO){
+        this.email = usuarioDTO.getEmail();
+        this.nome = usuarioDTO.getNome();
+        this.senha = usuarioDTO.getSenha();
+        this.dataUltimaAtualizacao = usuarioDTO.getDataUltimaAtualizacao();
+        this.dataCadastro = usuarioDTO.getDataCadastro();
     }
 }
