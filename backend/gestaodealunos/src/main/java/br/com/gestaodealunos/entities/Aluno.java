@@ -11,8 +11,7 @@ import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 @Entity
 public class Aluno {
 
