@@ -4,7 +4,7 @@ Projeto de um sistema de gerenciamento de alunos por seus professores, realizand
 
 # Tecnologias usadas
 
-- Java 11
+- Java 8
 - Node 14.17.1
 - Spring Boot 2.5.2
 - Angular 12
