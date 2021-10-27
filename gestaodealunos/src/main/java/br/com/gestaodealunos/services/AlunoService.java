@@ -5,27 +5,16 @@ import br.com.gestaodealunos.repositories.AlunoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
-
-import static java.nio.file.Files.copy;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 @AllArgsConstructor
 @Service
@@ -58,7 +47,7 @@ public class AlunoService {
     public ResponseEntity<Resource> getFoto(Long idAluno) throws IOException {
         Optional<Aluno> alunoOptional = alunoRepository.findById(idAluno);
 
-        return fotoService.getFoto(Path.of(alunoOptional.get().getPathFoto()));
+        return fotoService.getFoto(Paths.get(alunoOptional.get().getPathFoto()));
     }
 
     public Page<Aluno> listarAlunos(Integer page, Integer linesPerPage, String orderBy, String direction){
