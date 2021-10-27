@@ -1,17 +1,12 @@
 package br.com.gestaodealunos.controllers;
 
 import br.com.gestaodealunos.dto.AlunoDTO;
-import br.com.gestaodealunos.entities.*;
-import br.com.gestaodealunos.repositories.AdminRepository;
-import br.com.gestaodealunos.repositories.ProfessorRepository;
-import br.com.gestaodealunos.repositories.RoleRepository;
-import br.com.gestaodealunos.repositories.UsuarioRepository;
+import br.com.gestaodealunos.entities.Aluno;
 import br.com.gestaodealunos.services.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
