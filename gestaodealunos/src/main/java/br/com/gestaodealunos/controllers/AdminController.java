@@ -17,30 +17,30 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping(path = "/cadastrar-professor")
-    public ResponseEntity<Professor> cadastrarProfessor(@RequestBody ProfessorDTO professorDTO){
+    public ResponseEntity<Professor> cadastrarProfessor(@RequestBody ProfessorDTO professorDTO) throws Exception {
 
         return ResponseEntity.ok().body(adminService.cadastrarProfessor(professorDTO));
     }
 
     @PostMapping(path = "/cadastrar-usuario-admin")
-    public ResponseEntity<Usuario> cadastrarUsuarioAdmin(@RequestBody UsuarioDTO usuarioDTO){
+    public ResponseEntity<Usuario> cadastrarUsuarioAdmin(@RequestBody UsuarioDTO usuarioDTO) throws Exception {
 
         return ResponseEntity.ok().body(adminService.cadastrarUsuarioAdmin(usuarioDTO));
     }
 
     @PostMapping(path = "/editar-usuario-admin")
-    public ResponseEntity<Usuario> editarUsuarioAdmin(@RequestBody UsuarioDTO usuarioDTO){
+    public ResponseEntity<Usuario> editarUsuarioAdmin(@RequestBody UsuarioDTO usuarioDTO) throws Exception {
 
         return ResponseEntity.ok().body(adminService.editarUsuarioAdmin(usuarioDTO));
     }
 
     @PostMapping(path = "/editar-professor")
-    public ResponseEntity<Professor> editarProfessor(@RequestBody ProfessorDTO professorDTO){
+    public ResponseEntity<Professor> editarProfessor(@RequestBody ProfessorDTO professorDTO) throws Exception {
 
         return ResponseEntity.ok().body(adminService.editarProfessor(professorDTO));
     }
 
-    @DeleteMapping(path = "/delete-usuario-admin")
+    @PutMapping(path = "/delete-usuario-admin")
     public ResponseEntity<String> deleteUsuarioAdmin(@RequestBody UsuarioDTO usuarioDTO){
 
         adminService.deleteUsuarioAdmin(usuarioDTO);
@@ -48,8 +48,8 @@ public class AdminController {
         return ResponseEntity.ok().body("Sucesso");
     }
 
-    @DeleteMapping(path = "/delete-professor")
-    public ResponseEntity<String> deleteProfessor(@RequestBody ProfessorDTO professorDTO){
+    @PutMapping(path = "/delete-professor")
+    public ResponseEntity<String> deleteProfessor(@RequestBody ProfessorDTO professorDTO) throws Exception {
 
         adminService.deleteProfessor(professorDTO);
 

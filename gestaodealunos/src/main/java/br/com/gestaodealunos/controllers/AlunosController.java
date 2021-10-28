@@ -1,6 +1,7 @@
 package br.com.gestaodealunos.controllers;
 
 import br.com.gestaodealunos.dto.AlunoDTO;
+import br.com.gestaodealunos.dto.NotasDTO;
 import br.com.gestaodealunos.entities.Aluno;
 import br.com.gestaodealunos.services.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/aluno")
@@ -43,12 +45,9 @@ public class AlunosController {
     }
 
     @GetMapping(path = "/listar")
-    public ResponseEntity<Page<Aluno>> listar(@RequestParam(value="page", defaultValue="0") Integer page,
-                                              @RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage,
-                                              @RequestParam(value="orderBy", defaultValue="dataCadastro") String orderBy,
-                                              @RequestParam(value="direction", defaultValue="DESC") String direction){
+    public ResponseEntity<List<Aluno>> listar(){
 
-        return ResponseEntity.ok().body(alunoService.listarAlunos(page, linesPerPage, orderBy, direction));
+        return ResponseEntity.ok().body(alunoService.listarAlunos());
     }
 
     @PostMapping(path = "/update")
@@ -58,6 +57,14 @@ public class AlunosController {
         Long id = alunoService.update(novoAluno).getId();
 
         return ResponseEntity.ok().body(id);
+    }
+
+    @PostMapping(path = "/{id}/update-notas")
+    public ResponseEntity<Long> update(@RequestBody NotasDTO notasDTO, @RequestParam("id") Long idAluno){
+
+        Long id = alunoService.updateNotas(notasDTO, idAluno);
+
+        return ResponseEntity.ok().body("Sucesso");
     }
 
     @PutMapping(path = "/remover")

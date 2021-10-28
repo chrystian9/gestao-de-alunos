@@ -1,7 +1,9 @@
 package br.com.gestaodealunos.services;
 
 import br.com.gestaodealunos.entities.Aluno;
+import br.com.gestaodealunos.entities.Nota;
 import br.com.gestaodealunos.repositories.AlunoRepository;
+import br.com.gestaodealunos.repositories.NotaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -50,11 +53,8 @@ public class AlunoService {
         return fotoService.getFoto(Paths.get(alunoOptional.get().getPathFoto()));
     }
 
-    public Page<Aluno> listarAlunos(Integer page, Integer linesPerPage, String orderBy, String direction){
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
-        Page<Aluno> alunos = alunoRepository.findAll(pageRequest);
-
-        return alunos;
+    public List<Aluno> listarAlunos(){
+        return alunoRepository.findAll();
     }
 
     public Aluno update(Aluno aluno){
@@ -65,5 +65,15 @@ public class AlunoService {
     public void remover(Aluno aluno){
         aluno = alunoRepository.findById(aluno.getId()).get();
         alunoRepository.delete(aluno);
+    }
+
+    public void updateNotas(List<NotasDTO> notasDTO, Long idAluno) {
+        List<Nota> notas = notasDTO.getNotas();
+
+        Aluno aluno = alunoRepository.getById(idAluno);
+
+        aluno.setNotas(notas);
+
+        alunoRepository.save(aluno);
     }
 }

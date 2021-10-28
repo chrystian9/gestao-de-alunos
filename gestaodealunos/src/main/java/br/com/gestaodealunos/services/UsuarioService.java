@@ -5,6 +5,7 @@ import br.com.gestaodealunos.entities.Usuario;
 import br.com.gestaodealunos.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,7 @@ public class UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    private PasswordEncoder passwordEncoder;
-
-    public Usuario editarUsuarioAdmin(UsuarioDTO usuarioDTO) {
+    public Usuario editarUsuarioAdmin(UsuarioDTO usuarioDTO) throws Exception {
         Optional<Usuario> usuario = usuarioRepository.findByEmail(usuarioDTO.getEmail());
 
         try{
@@ -27,21 +26,22 @@ public class UsuarioService {
             if(!usuarioDTO.getEmail().equals(usuario.get().getEmail())){
                 throw new Exception("Email não correspondente ao cadastrado no banco.");
             }
+
+            Usuario usuarioNoBanco = usuario.get();
+
+            usuarioNoBanco.setNome(usuarioDTO.getNome());
+            usuarioNoBanco.setSenha(new BCryptPasswordEncoder().encode(usuarioDTO.getSenha()));
+            usuarioNoBanco.setDataCadastro(usuarioDTO.getDataCadastro());
+            usuarioNoBanco.setDataUltimaAtualizacao(usuarioDTO.getDataUltimaAtualizacao());
+
+            return usuarioRepository.save(usuarioNoBanco);
+
         }catch (Exception e){
-            e.printStackTrace();
+            throw new Exception(e.getMessage());
         }
-
-        Usuario usuarioNoBanco = usuario.get();
-
-        usuarioNoBanco.setNome(usuarioDTO.getNome());
-        usuarioNoBanco.setSenha(passwordEncoder.encode(usuarioDTO.getSenha()));
-        usuarioNoBanco.setDataCadastro(usuarioDTO.getDataCadastro());
-        usuarioNoBanco.setDataUltimaAtualizacao(usuarioDTO.getDataUltimaAtualizacao());
-
-        return usuarioRepository.save(usuarioNoBanco);
     }
 
-    public void deleteUsuarioAdmin(UsuarioDTO usuarioDTO) {
+    public void deleteUsuarioAdmin(UsuarioDTO usuarioDTO) throws UsernameNotFoundException {
         Optional<Usuario> usuario = usuarioRepository.findByEmail(usuarioDTO.getEmail());
 
         usuario.orElseThrow(() -> new UsernameNotFoundException("Email " + usuarioDTO.getEmail() + " não encontrado."));
