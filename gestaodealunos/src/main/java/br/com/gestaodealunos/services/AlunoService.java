@@ -67,10 +67,12 @@ public class AlunoService {
         alunoRepository.delete(aluno);
     }
 
-    public void updateNotas(List<NotasDTO> notasDTO, Long idAluno) {
-        List<Nota> notas = notasDTO.getNotas();
-
+    public void updateNotas(List<Nota> notas, Long idAluno) {
         Aluno aluno = alunoRepository.getById(idAluno);
+
+        for (Nota nota: notas) {
+            nota.setAluno(aluno);
+        }
 
         aluno.setNotas(notas);
 

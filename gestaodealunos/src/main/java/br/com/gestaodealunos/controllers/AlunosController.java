@@ -3,6 +3,7 @@ package br.com.gestaodealunos.controllers;
 import br.com.gestaodealunos.dto.AlunoDTO;
 import br.com.gestaodealunos.dto.NotasDTO;
 import br.com.gestaodealunos.entities.Aluno;
+import br.com.gestaodealunos.entities.Nota;
 import br.com.gestaodealunos.services.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -60,9 +61,9 @@ public class AlunosController {
     }
 
     @PostMapping(path = "/{id}/update-notas")
-    public ResponseEntity<Long> update(@RequestBody NotasDTO notasDTO, @RequestParam("id") Long idAluno){
+    public ResponseEntity<String> update(@RequestBody List<Nota> notas, @RequestParam("id") Long idAluno){
 
-        Long id = alunoService.updateNotas(notasDTO, idAluno);
+        alunoService.updateNotas(notas, idAluno);
 
         return ResponseEntity.ok().body("Sucesso");
     }
