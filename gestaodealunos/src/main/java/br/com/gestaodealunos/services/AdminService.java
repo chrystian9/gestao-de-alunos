@@ -6,11 +6,14 @@ import br.com.gestaodealunos.entities.Professor;
 import br.com.gestaodealunos.entities.Role;
 import br.com.gestaodealunos.entities.Usuario;
 import br.com.gestaodealunos.repositories.ProfessorRepository;
+import br.com.gestaodealunos.repositories.RoleRepository;
 import br.com.gestaodealunos.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NonUniqueResultException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,81 +28,66 @@ public class AdminService {
     UsuarioRepository usuarioRepository;
 
     @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
     ProfessorService professorService;
 
     @Autowired
     UsuarioService usuarioService;
 
-    private PasswordEncoder passwordEncoder;
-
-    public Professor cadastrarProfessor(ProfessorDTO professorDTO) {
+    public Professor cadastrarProfessor(ProfessorDTO professorDTO) throws Exception {
         try {
-            Optional<Usuario> usuario = usuarioRepository.findByEmail(professorDTO.getEmail());
+            verificaUsuarioNoBanco(professorDTO.getEmail(), professorDTO.getId());
 
-            if(usuario != null){
-                throw new Exception("Email já cadastrado no sistema!");
-            }
+            Professor professor = new Professor(professorDTO);
+            professor.setSenha(new BCryptPasswordEncoder().encode(professor.getSenha()));
 
-            usuario = usuarioRepository.findById(professorDTO.getId());
+            verificaRolesNoBanco();
 
-            if(usuario!= null){
-                throw new Exception("Usuário já cadastrado no sistema!");
-            }
+            Role role = roleRepository.getById(2L);
+
+            List<Role> roles = new ArrayList<>();
+            roles.add(role);
+
+            professor.setRoles(roles);
+
+            return professorRepository.save(professor);
         }catch (Exception e){
-            e.printStackTrace();
+            throw new Exception(e.getMessage());
         }
-
-        Professor professor = new Professor(professorDTO);
-        professor.setSenha(passwordEncoder.encode(professor.getSenha()));
-
-        Role role = new Role();
-        role.setId(2L);
-
-        List<Role> roles = new ArrayList<>();
-        roles.add(role);
-
-        professor.setRoles(roles);
-
-        return professorRepository.save(professor);
     }
 
-    public Usuario cadastrarUsuarioAdmin(UsuarioDTO usuarioDTO) {
+    public Usuario cadastrarUsuarioAdmin(UsuarioDTO usuarioDTO) throws Exception {
         try {
-            Optional<Usuario> usuario = usuarioRepository.findByEmail(usuarioDTO.getEmail());
+            verificaUsuarioNoBanco(usuarioDTO.getEmail(), usuarioDTO.getId());
 
-            if(usuario != null){
-                throw new Exception("Email já cadastrado no sistema!");
-            }
+            Usuario usuario = new Usuario(usuarioDTO);
+            usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 
-            usuario = usuarioRepository.findById(usuarioDTO.getId());
+            verificaRolesNoBanco();
 
-            if(usuario!= null){
-                throw new Exception("Usuário já cadastrado no sistema!");
-            }
+            List<Role> roles = new ArrayList<>();
+
+            Role role = roleRepository.getById(1L);
+            roles.add(role);
+
+            role = roleRepository.getById(2L);
+            roles.add(role);
+
+            usuario.setRoles(roles);
+
+            return usuarioRepository.save(usuario);
         }catch (Exception e){
-            e.printStackTrace();
+            throw new Exception(e.getMessage());
         }
-
-        Usuario usuario = new Usuario(usuarioDTO);
-        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-
-        Role role = new Role();
-        role.setId(1L);
-        role.setId(2L);
-
-        List<Role> roles = new ArrayList<>();
-        roles.add(role);
-
-        usuario.setRoles(roles);
-
-        return usuarioRepository.save(usuario);
     }
 
-    public Usuario editarUsuarioAdmin(UsuarioDTO usuarioDTO) {
+    public Usuario editarUsuarioAdmin(UsuarioDTO usuarioDTO) throws Exception {
         return usuarioService.editarUsuarioAdmin(usuarioDTO);
     }
 
-    public Professor editarProfessor(ProfessorDTO professorDTO) {
+    public Professor editarProfessor(ProfessorDTO professorDTO) throws Exception {
         return professorService.editarProfessor(professorDTO);
     }
 
@@ -107,7 +95,35 @@ public class AdminService {
         usuarioService.deleteUsuarioAdmin(usuarioDTO);
     }
 
-    public void deleteProfessor(ProfessorDTO professorDTO) {
+    public void deleteProfessor(ProfessorDTO professorDTO) throws Exception {
         professorService.deleteProfessor(professorDTO);
+    }
+
+    public void verificaUsuarioNoBanco(String email, Long id) throws Exception {
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+
+        if(usuario.isPresent() == true){
+            throw new NonUniqueResultException("Email já cadastrado no sistema!");
+        }
+
+        usuario = usuarioRepository.findById(id);
+
+        if(usuario.isPresent() == true){
+            throw new NonUniqueResultException("Usuário já cadastrado no sistema!");
+        }
+    }
+
+    public void verificaRolesNoBanco(){
+        Optional<Role> role = roleRepository.findById(1L);
+
+        if(role.isPresent() == false){
+            roleRepository.save(new Role("ADMIN_ROLE"));
+        }
+
+        role = roleRepository.findById(2L);
+
+        if(role.isPresent() == false){
+            roleRepository.save(new Role("USER_ROLE"));
+        }
     }
 }
