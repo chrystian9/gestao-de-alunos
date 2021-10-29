@@ -23,13 +23,19 @@ public class Professor extends Usuario {
     @Column(name = "sobrenome")
     private String sobrenome;
 
+    @NotNull
+    @Column(name = "disciplina")
+    private String disciplina;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco", referencedColumnName = "id")
     private Endereco endereco;
 
+    /*
     @JsonIgnore
     @Column(name = "path_foto")
     private String pathFoto;
+    */
 
     public Professor(ProfessorDTO professorDTO){
         super(professorDTO.getNome(),
@@ -39,6 +45,15 @@ public class Professor extends Usuario {
                 professorDTO.getDataCadastro());
 
         this.sobrenome = professorDTO.getSobrenome();
-        this.endereco = new Endereco(professorDTO.getEndereco());
+        this.endereco = new Endereco();
+
+        this.endereco.setRua(professorDTO.getRua());
+        this.endereco.setNumero(professorDTO.getNumero());
+        this.endereco.setBairro(professorDTO.getBairro());
+        this.endereco.setCep(professorDTO.getCep());
+        this.endereco.setCidade(professorDTO.getCidade());
+        this.endereco.setEstado(professorDTO.getEstado());
+        this.endereco.setComplemento(professorDTO.getComplemento());
+        this.endereco.setNumero(professorDTO.getNumero());
     }
 }

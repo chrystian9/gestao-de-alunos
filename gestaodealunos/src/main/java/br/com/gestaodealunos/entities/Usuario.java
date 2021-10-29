@@ -60,15 +60,15 @@ public class Usuario {
         this.email = email;
         this.nome = nome;
         this.senha = senha;
-        this.dataUltimaAtualizacao = dataUltimaAtualizacao;
-        this.dataCadastro = dataCadastro;
+        this.dataUltimaAtualizacao= new Date();
+        this.dataCadastro = new Date();
     }
 
     public Usuario(UsuarioDTO usuarioDTO){
         this.email = usuarioDTO.getEmail();
         this.nome = usuarioDTO.getNome();
         this.senha = usuarioDTO.getSenha();
-        this.dataUltimaAtualizacao = usuarioDTO.getDataUltimaAtualizacao();
-        this.dataCadastro = usuarioDTO.getDataCadastro();
+        this.dataUltimaAtualizacao= new Date();
+        this.dataCadastro = new Date();
     }
 }

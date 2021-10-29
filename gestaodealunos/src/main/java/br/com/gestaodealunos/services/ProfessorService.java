@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,9 +33,10 @@ public class ProfessorService {
 
             professorNoBanco.setNome(professorDTO.getNome());
             professorNoBanco.setSobrenome(professorDTO.getSobrenome());
+            professorNoBanco.setDisciplina(professorDTO.getDisciplina());
             professorNoBanco.setSenha(new BCryptPasswordEncoder().encode(professorDTO.getSenha()));
             professorNoBanco.setDataCadastro(professorDTO.getDataCadastro());
-            professorNoBanco.setDataUltimaAtualizacao(professorDTO.getDataUltimaAtualizacao());
+            professorNoBanco.setDataUltimaAtualizacao(new Date());
 
             return professorRepository.save(professorNoBanco);
         }catch (Exception e){

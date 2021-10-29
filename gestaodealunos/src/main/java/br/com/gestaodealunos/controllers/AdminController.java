@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api/admin")
+@CrossOrigin("*")
 public class AdminController {
 
     @Autowired
@@ -54,5 +57,11 @@ public class AdminController {
         adminService.deleteProfessor(professorDTO);
 
         return ResponseEntity.ok().body("Sucesso");
+    }
+
+    @GetMapping(path = "/listar/professores")
+    public ResponseEntity<List<Professor>> listarProfessores() throws Exception {
+
+        return ResponseEntity.ok().body(adminService.listarProfessores());
     }
 }

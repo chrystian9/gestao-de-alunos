@@ -11,21 +11,33 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Data
 @Entity
-public class Nota {
+public class Notas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Column(name = "bimestre")
-    private Integer bimestre;
+    @Column(name = "nota_um")
+    private Double notaUm;
 
     @NotNull
-    @Column(name = "nota")
-    private Double Nota;
+    @Column(name = "nota_dois")
+    private Double notaDois;
 
-    @ManyToOne
+    @NotNull
+    @Column(name = "nota_tres")
+    private Double notaTres;
+
+    @NotNull
+    @Column(name = "nota_quatro")
+    private Double notaQuatro;
+
+    @NotNull
+    @Column(name = "nota_final")
+    private Double notaFinal;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="aluno_id", nullable=false)
     private Aluno aluno;
 }

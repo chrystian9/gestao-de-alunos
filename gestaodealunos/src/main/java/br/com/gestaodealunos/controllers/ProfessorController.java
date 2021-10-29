@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/professor")
+@CrossOrigin("*")
 public class ProfessorController {
 
     @Autowired
@@ -20,20 +21,6 @@ public class ProfessorController {
     public ResponseEntity<Professor> editarProfessor(@RequestBody ProfessorDTO professorDTO) throws Exception {
 
         return ResponseEntity.ok().body(professorService.editarProfessor(professorDTO));
-    }
-
-    @PutMapping(path = "/delete-professor")
-    public ResponseEntity<String> deleteProfessor(@RequestBody ProfessorDTO professorDTO) throws Exception {
-
-        professorService.deleteProfessor(professorDTO);
-
-        return ResponseEntity.ok().body("Sucesso");
-    }
-
-    @GetMapping(path = "/lista-professor")
-    public ResponseEntity<List<Professor>> listaProfessores() throws Exception {
-
-        return ResponseEntity.ok().body(professorService.listaProfessores());
     }
 
     @GetMapping(path = "/professor/{id}")
