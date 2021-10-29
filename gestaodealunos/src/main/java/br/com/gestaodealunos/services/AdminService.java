@@ -106,10 +106,12 @@ public class AdminService {
             throw new NonUniqueResultException("Email já cadastrado no sistema!");
         }
 
-        usuario = usuarioRepository.findById(id);
+        if(id != null){
+            usuario = usuarioRepository.findById(id);
 
-        if(usuario.isPresent() == true){
-            throw new NonUniqueResultException("Usuário já cadastrado no sistema!");
+            if(usuario.isPresent() == true){
+                throw new NonUniqueResultException("Usuário já cadastrado no sistema!");
+            }
         }
     }
 
@@ -125,5 +127,10 @@ public class AdminService {
         if(role.isPresent() == false){
             roleRepository.save(new Role("USER_ROLE"));
         }
+    }
+
+    public List<Professor> listarProfessores(){
+
+        return professorService.listaProfessores();
     }
 }

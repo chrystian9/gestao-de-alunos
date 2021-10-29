@@ -42,19 +42,30 @@ public class Aluno {
     @JoinColumn(name = "id_endereco", referencedColumnName = "id")
     private Endereco endereco;
 
-    @OneToMany(mappedBy="aluno")
-    private List<Nota> notas;
+    @OneToOne(cascade = CascadeType.PERSIST, mappedBy="aluno")
+    private Notas notas;
 
+    /*
     @JsonIgnore
     @Column(name = "path_foto")
     private String pathFoto;
+    */
 
     public Aluno(AlunoDTO alunoDTO){
         this.id = alunoDTO.id;
-        this.endereco = new Endereco(alunoDTO.endereco);
         this.nome = alunoDTO.nome;
         this.sobrenome = alunoDTO.sobrenome;
-        this.dataUltimaAtualizacao= alunoDTO.dataUltimaAtualizacao;
-        this.dataCadastro = alunoDTO.dataCadastro;
+        this.dataUltimaAtualizacao= new Date();
+        this.dataCadastro = new Date();
+        this.endereco = new Endereco();
+
+        this.endereco.setRua(alunoDTO.getRua());
+        this.endereco.setNumero(alunoDTO.getNumero());
+        this.endereco.setBairro(alunoDTO.getBairro());
+        this.endereco.setCep(alunoDTO.getCep());
+        this.endereco.setCidade(alunoDTO.getCidade());
+        this.endereco.setEstado(alunoDTO.getEstado());
+        this.endereco.setComplemento(alunoDTO.getComplemento());
+        this.endereco.setNumero(alunoDTO.getNumero());
     }
 }

@@ -14,7 +14,14 @@ public class ProfessorDTO {
     public String senha;
     public String nome;
     public String sobrenome;
+    public String disciplina;
     public Date dataCadastro;
     public Date dataUltimaAtualizacao;
-    public EnderecoDTO endereco;
+    public String rua;
+    public Integer numero;
+    public String complemento;
+    public String bairro;
+    public String cep;
+    public String cidade;
+    public String estado;
 }
