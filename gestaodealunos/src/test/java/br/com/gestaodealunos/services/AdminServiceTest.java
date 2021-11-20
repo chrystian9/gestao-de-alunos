@@ -1,42 +1,66 @@
 package br.com.gestaodealunos.services;
 
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Optional;
 
+import br.com.gestaodealunos.entities.Role;
 import br.com.gestaodealunos.entities.Usuario;
 import br.com.gestaodealunos.dto.UsuarioDTO;
 import br.com.gestaodealunos.repositories.AdminRepository;
 
-import org.junit.jupiter.api.Assertions;
+import br.com.gestaodealunos.repositories.RoleRepository;
+import br.com.gestaodealunos.repositories.UsuarioRepository;
+import lombok.SneakyThrows;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ExtendWith(SpringExtension.class)
 public class AdminServiceTest {
 
     @InjectMocks
-    private AdminService adminService ;
+    private AdminService adminService;
+
     @Mock
-    private AdminRepository adminRepository = new;
+    private AdminRepository adminRepository;
+
+    @Mock
+    private RoleRepository roleRepository;
+
+    @Mock
+    private UsuarioRepository usuarioRepository;
 
     @BeforeEach
     void setup(){
-
-    }
-
-    @Test
-    public void cadastrarUsuarioAdminSucessoTeste() throws Exception {
-        UsuarioDTO usuarioDTO = criaUsuarioAdminDTO();
         Usuario usuario = criaUsuarioAdmin();
 
-        BDDMockito.when(adminRepository.save(ArgumentMatchers.any())).thenReturn(usuario);
-        Usuario cadastrado = adminService.cadastrarUsuarioAdmin(usuarioDTO);
-    Assertions.assertEquals(cadastrado,usuario);
+        BDDMockito.when(usuarioRepository.save(ArgumentMatchers.any())).thenReturn(usuario);
 
+        Optional<Usuario> optionalUsuario = Optional.empty();
+        BDDMockito.when(usuarioRepository.findByEmail(ArgumentMatchers.any())).thenReturn(optionalUsuario);
+        BDDMockito.when(usuarioRepository.findById(ArgumentMatchers.any())).thenReturn(null);
+
+        BDDMockito.when(roleRepository.getById(1L)).thenReturn(new Role("ADMIN_ROLE"));
+        BDDMockito.when(roleRepository.getById(2L)).thenReturn(new Role("USER_ROLE"));
+    }
+
+    @SneakyThrows
+    @Test
+    public void cadastrarUsuarioAdminSucessoTeste() {
+        UsuarioDTO usuarioAdminDTO = criaUsuarioAdminDTO();
+        Usuario cadastrado = adminService.cadastrarUsuarioAdmin(usuarioAdminDTO);
+
+        Assertions.assertThat(cadastrado).isNotNull();
+        Assertions.assertThat(cadastrado.getId()).isNotNull();
+        Assertions.assertThat(cadastrado.getNome()).isEqualTo(usuarioAdminDTO.getNome());
+        Assertions.assertThat(cadastrado.getEmail()).isEqualTo(usuarioAdminDTO.getEmail());
+        Assertions.assertThat(cadastrado.getSenha()).isEqualTo(usuarioAdminDTO.getSenha());
+        Assertions.assertThat(cadastrado.getDataCadastro()).isEqualTo(usuarioAdminDTO.getDataCadastro());
+        Assertions.assertThat(cadastrado.getDataUltimaAtualizacao()).isEqualTo(usuarioAdminDTO.getDataUltimaAtualizacao());
     }
 
 

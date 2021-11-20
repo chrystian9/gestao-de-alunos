@@ -6,6 +6,7 @@ import br.com.gestaodealunos.entities.Endereco;
 import br.com.gestaodealunos.entities.Professor;
 import br.com.gestaodealunos.entities.Role;
 import br.com.gestaodealunos.entities.Usuario;
+import br.com.gestaodealunos.repositories.AdminRepository;
 import br.com.gestaodealunos.services.AdminService;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
