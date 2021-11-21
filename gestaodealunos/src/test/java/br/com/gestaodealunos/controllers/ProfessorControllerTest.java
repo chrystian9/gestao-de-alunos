@@ -1,8 +1,6 @@
 package br.com.gestaodealunos.controllers;
 
-
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
-import static org.mockito.Mockito.*;
 
 import br.com.gestaodealunos.dto.ProfessorDTO;
 import br.com.gestaodealunos.entities.Endereco;
@@ -17,7 +15,6 @@ import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 
 
 import java.util.Date;
